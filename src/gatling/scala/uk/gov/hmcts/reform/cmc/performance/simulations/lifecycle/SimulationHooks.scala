@@ -2,8 +2,7 @@ package uk.gov.hmcts.reform.cmc.performance.simulations.lifecycle
 
 import io.gatling.core.Predef.Simulation
 import org.slf4j.LoggerFactory
-import uk.gov.hmcts.reform.cmc.performance.data.Credentials
-import uk.gov.hmcts.reform.idam.UserClient
+import uk.gov.hmcts.reform.idam.{User, UserClient}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration.{Inf => infinite}
@@ -12,26 +11,25 @@ import scala.concurrent.{Await, Future}
 trait SimulationHooks {
   self: Simulation =>
 
-  val logger = LoggerFactory.getLogger(classOf[SimulationHooks])
+  private val logger = LoggerFactory.getLogger(classOf[SimulationHooks])
 
-  var testUserCredentials: List[Credentials] = Nil
+  var testUsers: List[User] = Nil
 
-  private val userClient: UserClient = new UserClient(System.getenv("IDAM_URL"))
+  private val userClient: UserClient = new UserClient(System.getenv("IDAM_API_URL"))
 
   self.before {
     Await.ready(bootstrap(), infinite)
   }
 
   def bootstrap(): Future[Any] = {
-    val testUserInitialisations: List[Future[Unit]] = testUserCredentials map { credentials =>
+    val testUserInitialisations: List[Future[Unit]] = testUsers map { user =>
       for {
-        user <- userClient.create(credentials.email, credentials.password)
-        _ <- userClient.activate(user.uuid, user.activationKey)
+        _ <- userClient.create(user, "cmc-private-beta")
       } yield {}
     }
 
     val initialisationsSequence = Future.sequence(testUserInitialisations)
-    initialisationsSequence.onFailure { case exception =>
+    initialisationsSequence.failed.foreach { exception =>
       logger.error(s"Bootstrap failed (${exception.getMessage}) - shutting down...")
       userClient.shutdown()
       System.exit(1)
@@ -40,17 +38,11 @@ trait SimulationHooks {
   }
 
   self.after {
-    Await.ready(teardown(), infinite)
+    teardown()
   }
 
-  def teardown(): Future[Any] = {
-    val userDeletions: List[Future[Unit]] = testUserCredentials map { credentials =>
-      userClient.delete(credentials.email)
-    }
-
-    val deletionsSequence = Future.sequence(userDeletions)
-    deletionsSequence.onComplete(_ => userClient.shutdown())
-    deletionsSequence
+  def teardown(): Unit = {
+    userClient.shutdown()
   }
 
 }
