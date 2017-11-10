@@ -4,9 +4,12 @@ import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
+import scala.concurrent.duration._
 import uk.gov.hmcts.reform.cmc.performance.processes._
 import uk.gov.hmcts.reform.cmc.performance.simulations.lifecycle.SimulationHooks
 import uk.gov.hmcts.reform.idam.User
+
+import scala.concurrent.duration.FiniteDuration
 
 class CreateClaimSimulation extends Simulation with SimulationHooks {
   testUsers = List(User.default)
@@ -37,10 +40,12 @@ class CreateClaimSimulation extends Simulation with SimulationHooks {
         CheckAndSend.run
       )
 
-  setUp(createClaimScenario.inject(atOnceUsers(1)))
-    .protocols(httpProtocol)
+  setUp(createClaimScenario
+    .inject(rampUsers(10).over(10 seconds))
+    .protocols(httpProtocol))
+    .maxDuration(10 minutes)
     .assertions(
-      global.responseTime.max.lt(3000),
+      global.responseTime.max.lt(5000),
       forAll.failedRequests.count.lt(1)
     )
 
