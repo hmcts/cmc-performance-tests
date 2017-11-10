@@ -21,19 +21,13 @@ node('docker') {
     }
 
     stage('Run performance tests') {
-      env.IDAM_API_URL = 'http://betaDevBccidamAppLB.reform.hmcts.net:4551'
-      env.URL = 'https://www-dev.moneyclaim.reform.hmcts.net'
-      sh "./gradlew gatlingRun"
-
-      gatlingArchive
-
-      publishHTML target: [
-        alwaysLinkToLastBuild: true,
-        reportDir            : "build/results",
-        reportFiles          : "*",
-        reportName           : "Performance test report",
-        keepAll              : true
-      ]
+      try {
+        env.IDAM_API_URL = 'http://betaDevBccidamAppLB.reform.hmcts.net:4551'
+        env.URL = 'https://www-dev.moneyclaim.reform.hmcts.net'
+        sh "./gradlew gatlingRun"
+      } finally {
+        gatlingArchive()
+      }
     }
   } catch (e) {
     notifyBuildFailure channel: channel
