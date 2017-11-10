@@ -31,7 +31,10 @@ class CreateClaimSimulation extends Simulation with SimulationHooks {
         ResolvingThisDispute.run,
         CompletingYourClaim.run,
         YourDetails.run,
-        TheirDetails.run
+        TheirDetails.run,
+        Amount.run,
+        Reason.run,
+        CheckAndSend.run
       )
 
   setUp(createClaimScenario.inject(atOnceUsers(1)))
