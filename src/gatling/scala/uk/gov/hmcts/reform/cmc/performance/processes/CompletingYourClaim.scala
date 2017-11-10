@@ -7,18 +7,15 @@ import uk.gov.hmcts.reform.cmc.performance.simulations.checks.CsrfCheck.{csrfPar
 import uk.gov.hmcts.reform.cmc.performance.simulations.checks.CurrentPageCheck.currentPageTemplate
 import uk.gov.hmcts.reform.cmc.performance.simulations.checks.{CsrfCheck, CurrentPageCheck}
 
-object ResolvingThisDispute {
+object CompletingYourClaim {
 
   def run(implicit postHeaders: Map[String, String]): ChainBuilder = {
-    exec(http("Task list - GET")
-      .get("/claim/task-list"))
-      .pause(2)
-      .exec(http("Resolving this dispute - GET")
-        .get("/claim/resolving-this-dispute")
+    exec(http("Completing claim - GET")
+      .get("/claim/completing-claim")
         .check(CsrfCheck.save)
         .check(CurrentPageCheck.save))
-      .pause(1)
-      .exec(http("Resolving this dispute - POST")
+      .pause(2)
+      .exec(http("Completing claim - POST")
         .post(currentPageTemplate)
         .formParam(csrfParameter, csrfTemplate)
       )

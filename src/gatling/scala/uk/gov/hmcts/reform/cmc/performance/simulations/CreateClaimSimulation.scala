@@ -4,7 +4,7 @@ import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
-import uk.gov.hmcts.reform.cmc.performance.processes.{Eligibility, LoginPage, ResolvingThisDispute}
+import uk.gov.hmcts.reform.cmc.performance.processes._
 import uk.gov.hmcts.reform.cmc.performance.simulations.lifecycle.SimulationHooks
 import uk.gov.hmcts.reform.idam.User
 
@@ -28,13 +28,15 @@ class CreateClaimSimulation extends Simulation with SimulationHooks {
       .exec(
         LoginPage.logIn(testUsers.head),
         Eligibility.run,
-        ResolvingThisDispute.run
+        ResolvingThisDispute.run,
+        CompletingYourClaim.run,
+        YourDetails.run
       )
 
   setUp(createClaimScenario.inject(atOnceUsers(1)))
     .protocols(httpProtocol)
     .assertions(
-      global.responseTime.max.lt(500),
+      global.responseTime.max.lt(1000),
       forAll.failedRequests.count.lt(1)
     )
 
