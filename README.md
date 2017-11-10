@@ -30,6 +30,15 @@ $ ./gradlew gatlingRun
 $ ./bin/run-performance-tests.sh
 ```
 
+### Debugging:
+To read a value from the gatling virtual session use something like:
+```
+.exec(session => {
+        println(">>>>>>>>>>>>>>>>>>>> " + session("state").as[String])
+        session
+      })
+```
+
 ## Versioning
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](http://git.reform/cmc/performance-tests/tags).
