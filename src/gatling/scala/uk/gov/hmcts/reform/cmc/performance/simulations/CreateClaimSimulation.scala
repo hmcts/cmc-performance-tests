@@ -30,13 +30,14 @@ class CreateClaimSimulation extends Simulation with SimulationHooks {
         Eligibility.run,
         ResolvingThisDispute.run,
         CompletingYourClaim.run,
-        YourDetails.run
+        YourDetails.run,
+        TheirDetails.run
       )
 
   setUp(createClaimScenario.inject(atOnceUsers(1)))
     .protocols(httpProtocol)
     .assertions(
-      global.responseTime.max.lt(1000),
+      global.responseTime.max.lt(3000),
       forAll.failedRequests.count.lt(1)
     )
 

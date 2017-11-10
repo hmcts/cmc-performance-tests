@@ -20,16 +20,10 @@ $ export IDAM_API_URL="The IDAM api service URL"
 
 ### Running the tests:
 
-Against a local environment running on your machine:
-
 ```bash
 $ ./gradlew gatlingRun
 ```
  
-```bash
-$ ./bin/run-performance-tests.sh
-```
-
 ### Debugging:
 To read a value from the gatling virtual session use something like:
 ```
@@ -45,5 +39,5 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details
 

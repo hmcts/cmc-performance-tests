@@ -20,33 +20,7 @@
 //  val uri1 = "localhost"
 //
 
-//                                .resources(http("request_55")
-//                                  .get("/claim/defendant-party-type-selection"),
-//                                  http("request_58")
-//                                ))
-//                              .pause(1)
-//                              .exec(http("request_60")
-//                                .post("/claim/defendant-party-type-selection")
-//                                .formParam("_csrf", "scR3Eolk-WokBLo7Q7_HnnefpvR_WjoXkxoI")
-//                                .formParam("type", "individual")
-//                                .resources(http("request_61")
-//                                ))
-//                              .pause(8)
-//                              .exec(http("request_63")
-//                                .post("/claim/defendant-individual-details")
-//                                .formParam("_csrf", "pYuhieQS-V4FsUI2PdsRd5Jid6sV7ynVSsR8")
-//                                .formParam("name", "Robert Lee")
-//                                .formParam("address[line1]", "123 Johns lane")
-//                                .formParam("address[line2]", "")
-//                                .formParam("address[city]", "London")
-//                                .formParam("address[postcode]", "SW1 2AX")
-//                                .resources(http("request_64")
-//                                  .get("/analytics"),
-//                                  http("request_65")
-//                                    .get(uri2 + "")
-//                                    .headers(headers_2)))
-//                              .pause(3)
-//                              .exec(http("request_66")
+
 //                                .post("/claim/defendant-email")
 //                                .headers(headers_0)
 //                                .formParam("_csrf", "VsScCiki-MmCzJ7F31MKgktmX01lsqyFSetk")

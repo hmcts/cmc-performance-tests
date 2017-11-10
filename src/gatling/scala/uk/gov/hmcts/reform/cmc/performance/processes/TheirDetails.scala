@@ -7,11 +7,11 @@ import uk.gov.hmcts.reform.cmc.performance.simulations.checks.CsrfCheck.{csrfPar
 import uk.gov.hmcts.reform.cmc.performance.simulations.checks.CurrentPageCheck.currentPageTemplate
 import uk.gov.hmcts.reform.cmc.performance.simulations.checks.{CsrfCheck, CurrentPageCheck}
 
-object YourDetails {
+object TheirDetails {
 
   def run(implicit postHeaders: Map[String, String]): ChainBuilder = {
     exec(http("Party type selection - GET")
-      .get("/claim/claimant-party-type-selection")
+      .get("/claim/defendant-party-type-selection")
       .check(CsrfCheck.save)
       .check(CurrentPageCheck.save))
       .pause(2)
@@ -22,14 +22,14 @@ object YourDetails {
         .check(CsrfCheck.save)
         .check(CurrentPageCheck.save))
       .pause(3)
-      .exec(http("Your details - POST")
+      .exec(http("Their details - POST")
         .post(currentPageTemplate)
         .formParam(csrfParameter, csrfTemplate)
-        .formParam("name", "John Smith")
-        .formParam("address[line1]", "221B Baker street")
+        .formParam("name", "Defendant John Smith")
+        .formParam("address[line1]", "222B Baker street")
         .formParam("address[line2]", "")
         .formParam("address[city]", "London")
-        .formParam("address[postcode]", "NW1 6XE")
+        .formParam("address[postcode]", "NW2 6XE")
         .formParam("hasCorrespondenceAddress", "false")
         .formParam("correspondenceAddress[line1]", "")
         .formParam("correspondenceAddress[line2]", "")
@@ -38,22 +38,12 @@ object YourDetails {
         .check(CsrfCheck.save)
         .check(CurrentPageCheck.save))
       .pause(2)
-      .exec(http("Date of birth - POST")
+      .exec(http("Email address - POST")
         .post(currentPageTemplate)
         .formParam(csrfParameter, csrfTemplate)
-        .formParam("known", "true")
-        .formParam("date[day]", "31")
-        .formParam("date[month]", "3")
-        .formParam("date[year]", "1980")
-        .check(CsrfCheck.save)
-        .check(CurrentPageCheck.save))
-      .pause(2)
-      .exec(http("Mobile number - POST")
-        .post(currentPageTemplate)
-        .formParam(csrfParameter, csrfTemplate)
-        .formParam("number", "07123456789")
+        .formParam("address", "")
       )
-      .pause(1)
+      .pause(2)
   }
 
 }
