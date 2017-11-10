@@ -14,7 +14,6 @@ properties(
 String channel = '#cmc-tech-notification'
 
 node('docker') {
-  configure(env)
   try {
     stage('Checkout') {
       deleteDir()
