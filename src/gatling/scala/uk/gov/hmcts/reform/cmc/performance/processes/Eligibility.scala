@@ -3,22 +3,18 @@ package uk.gov.hmcts.reform.cmc.performance.processes
 import io.gatling.core.Predef._
 import io.gatling.core.structure.ChainBuilder
 import io.gatling.http.Predef._
+import uk.gov.hmcts.reform.cmc.performance.simulations.checks.CsrfCheck.{csrfParameter, csrfTemplate}
+import uk.gov.hmcts.reform.cmc.performance.simulations.checks.CurrentPageCheck.currentPageTemplate
 import uk.gov.hmcts.reform.cmc.performance.simulations.checks.{CsrfCheck, CurrentPageCheck}
 
 object Eligibility {
 
   def run(implicit postHeaders: Map[String, String]): ChainBuilder = {
     val eligibilityPath = "/claim/eligibility"
-    val currentPageTemplate = "${currentPage}"
 
-    val csrfParameter = "_csrf"
-    val csrfTemplate = "${csrf}"
     exec(http("Eligibility start")
       .get(eligibilityPath))
       .pause(2)
-      .exec(http("Eligibility - claim value get")
-        .get(s"$eligibilityPath/claim-value"))
-      .pause(1)
       .exec(http("Eligibility - claim value GET")
         .get(s"$eligibilityPath/claim-value")
         .check(CsrfCheck.save))

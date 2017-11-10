@@ -7,4 +7,6 @@ import io.gatling.http.check.HttpCheck
 
 object CurrentPageCheck {
   def save: CheckBuilder[HttpCheck, Response, Response, String] = currentLocation.saveAs("currentPage")
+
+  def currentPageTemplate: String = "${currentPage}"
 }
