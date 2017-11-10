@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+  <root level="${logLevel}">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+  <logger name="io.netty" level="INFO"/>
+  <logger name="io.gatling" level="INFO"/>
+  <logger name="io.gatling.http.fetch.ResourceFetcherActor" level="WARN"/>
+  <logger name="org.asynchttpclient" level="DEBUG"/>
+  <logger name="jodd.lagarto.dom" level="INFO"/>
+  <!-- The one below prints HTTP requests and responses so it may be useful to leave it at DEBUG -->
+  <logger name="com.ning" level="DEBUG"/>
+</configuration>
