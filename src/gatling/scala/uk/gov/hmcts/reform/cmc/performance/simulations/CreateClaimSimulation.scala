@@ -41,7 +41,7 @@ class CreateClaimSimulation extends Simulation with SimulationHooks {
       )
 
   setUp(createClaimScenario
-    .inject(rampUsers(10).over(10 seconds))
+    .inject(rampUsers(100).over(40 seconds))
     .protocols(httpProtocol))
     .maxDuration(10 minutes)
     .assertions(
