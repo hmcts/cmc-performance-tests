@@ -24,6 +24,7 @@ node('docker') {
       try {
         env.IDAM_API_URL = 'http://betaDevBccidamAppLB.reform.hmcts.net:4551'
         env.URL = 'https://www-dev.moneyclaim.reform.hmcts.net'
+        env.LEGAL_URL = 'https://www-dev.moneyclaim.reform.hmcts.net/legal'
         sh "./gradlew gatlingRun"
       } finally {
         gatlingArchive()
