@@ -12,11 +12,9 @@ object ClaimantLegalRepresentative {
   def run(implicit postHeaders: Map[String, String]): ChainBuilder = {
     val startPagePath = "/claim/start"
     exec(http("Start Page")
-      .post(startPagePath)
-      .formParam(csrfParameter, csrfTemplate)
+      .get(startPagePath)
       .check(CurrentPageCheck.save)
       .check(CsrfCheck.save)
-      .check(regex("Your organisation name"))
     )
     .pause(2)
     .exec(http("Legal Rep Organisation Name POST")
