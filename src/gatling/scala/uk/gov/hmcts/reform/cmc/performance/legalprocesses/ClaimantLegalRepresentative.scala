@@ -1,0 +1,66 @@
+package uk.gov.hmcts.reform.cmc.performance.legalprocesses
+
+import io.gatling.core.Predef._
+import io.gatling.core.structure.ChainBuilder
+import io.gatling.http.Predef._
+import uk.gov.hmcts.reform.cmc.performance.simulations.checks.CsrfCheck.{csrfParameter, csrfTemplate}
+import uk.gov.hmcts.reform.cmc.performance.simulations.checks.CurrentPageCheck.currentPageTemplate
+import uk.gov.hmcts.reform.cmc.performance.simulations.checks.{CsrfCheck, CurrentPageCheck}
+
+object ClaimantLegalRepresentative {
+
+  def run(implicit postHeaders: Map[String, String]): ChainBuilder = {
+    val startPagePath = "/claim/start"
+    exec(http("Start Page")
+      .post(startPagePath)
+      .formParam(csrfParameter, csrfTemplate)
+      .check(CurrentPageCheck.save)
+      .check(CsrfCheck.save)
+      .check(regex("Your organisation name"))
+    )
+    .pause(2)
+    .exec(http("Legal Rep Organisation Name POST")
+      .post("/claim/representative-name")
+      .formParam(csrfParameter, csrfTemplate)
+      .formParam("name", "Abc Organisation")
+      .check(CurrentPageCheck.save)
+      .check(CsrfCheck.save)
+    )
+    .exec(http("Legal Rep Organisation Address POST")
+      .post("/claim/representative-address")
+      .formParam(csrfParameter, csrfTemplate)
+      .formParam("line1", "102 Petty France")
+      .formParam("line2", "6th floor")
+      .formParam("city", "London")
+      .formParam("postcode", "SW1H 9AJ")
+      .check(CurrentPageCheck.save)
+      .check(CsrfCheck.save)
+    )
+    .pause(2)
+    .exec(http("Legal Rep Organisation Contact POST")
+      .post("/claim/representative-contacts")
+      .formParam(csrfParameter, csrfTemplate)
+      .formParam("phoneNumber", "0700000000")
+      .formParam("email", "abc@abc.com")
+      .formParam("dxAddress", "DX1234")
+      .check(CurrentPageCheck.save)
+      .check(CsrfCheck.save)
+    )
+    .exec(http("Legal Rep Organisation Contact POST")
+      .post("/claim/your-reference")
+      .formParam(csrfParameter, csrfTemplate)
+      .formParam("reference", "REFLR001")
+      .check(CurrentPageCheck.save)
+      .check(CsrfCheck.save)
+    )
+    .exec(http("Legal Rep Organisation Contact POST")
+      .post("/claim/preferred-court")
+      .formParam(csrfParameter, csrfTemplate)
+      .formParam("name", "Central Court")
+      .check(CurrentPageCheck.save)
+      .check(CsrfCheck.save)
+      .check(regex("Choose claimant type"))
+    )
+  }
+
+}

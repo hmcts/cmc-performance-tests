@@ -30,7 +30,8 @@ class CreateLegalSimulation extends Simulation with SimulationHooks {
 
   val createLegalClaimScenario: ScenarioBuilder = scenario("Create legal Claim")
     .exec(
-      LoginPage.logLegalIn(testLegalUsers.head)
+      LoginPage.logLegalIn(testLegalUsers.head),
+      ClaimantLegalRepresentative.run
     )
 
   setUp(createLegalClaimScenario
