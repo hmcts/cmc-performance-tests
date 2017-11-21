@@ -6,7 +6,6 @@ import dispatch._
 import net.liftweb.json.JsonAST.JValue
 import net.liftweb.json.JsonDSL._
 import net.liftweb.json._
-
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class UserClient(val baseURL: String) {
@@ -14,22 +13,9 @@ class UserClient(val baseURL: String) {
 
   private implicit val formats: DefaultFormats.type = DefaultFormats
 
-  def create(user: User, userGroupCode: String): Future[User] = {
-    val json = ("email" -> user.email) ~ ("password" -> user.password) ~ ("userGroup" -> ("code", userGroupCode)) ~
+  def create(user: User): Future[User] = {
+    val json = ("email" -> user.email) ~ ("password" -> user.password) ~ ("userGroup" -> ("code", user.group)) ~
       ("forename" -> "John") ~ ("surname" -> "Smith") ~ ("levelOfAccess" -> 1) ~ ("activationDate" -> "") ~
-      ("lastAccess" -> "")
-
-    val request = (url(baseURL) / "testing-support" / "accounts").POST
-      .setContentType("application/json", utf8) << compactRender(json)
-
-    Http.default(request OK as.lift.Json) map { _: JValue =>
-      user
-    }
-  }
-
-  def createLegal(user: LegalUser, userGroupCode: String): Future[LegalUser] = {
-    val json = ("email" -> user.email) ~ ("password" -> user.password) ~ ("userGroup" -> ("code", userGroupCode)) ~
-      ("forename" -> "John") ~ ("surname" -> "Legal") ~ ("levelOfAccess" -> 1) ~ ("activationDate" -> "") ~
       ("lastAccess" -> "")
 
     val request = (url(baseURL) / "testing-support" / "accounts").POST

@@ -36,7 +36,7 @@ object LoginPage {
       .pause(1)
   }
 
-  def legalLogIn(user: LegalUser)(implicit postHeaders: Map[String, String]): ChainBuilder = {
+  def legalLogIn(user: User)(implicit postHeaders: Map[String, String]): ChainBuilder = {
     exec(http("Trigger login")
       .get("/")
       .check(CurrentPageCheck.save)

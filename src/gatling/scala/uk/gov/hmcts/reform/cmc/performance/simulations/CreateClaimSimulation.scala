@@ -12,7 +12,7 @@ import uk.gov.hmcts.reform.idam.{User,LoginPage}
 import scala.concurrent.duration.FiniteDuration
 
 class CreateClaimSimulation extends Simulation with SimulationHooks {
-  testUsers = List(User.default)
+  testUsers = List(User.citizen)
 
   val baseURL: String = System.getenv("URL")
 
