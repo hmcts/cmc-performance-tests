@@ -7,7 +7,7 @@ import io.gatling.http.protocol.HttpProtocolBuilder
 import scala.concurrent.duration._
 import uk.gov.hmcts.reform.cmc.performance.processes._
 import uk.gov.hmcts.reform.cmc.performance.simulations.lifecycle.SimulationHooks
-import uk.gov.hmcts.reform.idam.User
+import uk.gov.hmcts.reform.idam.{User,LoginPage}
 
 import scala.concurrent.duration.FiniteDuration
 
