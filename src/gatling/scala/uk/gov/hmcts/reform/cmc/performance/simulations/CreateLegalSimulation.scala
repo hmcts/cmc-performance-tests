@@ -4,17 +4,18 @@ import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
+
 import scala.concurrent.duration._
-import uk.gov.hmcts.reform.cmc.performance.processes._
+import uk.gov.hmcts.reform.cmc.performance.legalprocesses._
 import uk.gov.hmcts.reform.cmc.performance.simulations.lifecycle.SimulationHooks
 import uk.gov.hmcts.reform.idam.{User,LoginPage}
 
 import scala.concurrent.duration.FiniteDuration
 
-class CreateClaimSimulation extends Simulation with SimulationHooks {
-  testUsers = List(User.citizen)
+class CreateLegalSimulation extends Simulation with SimulationHooks {
+  testUsers = List(User.legal)
 
-  val baseURL: String = System.getenv("URL")
+  val baseURL: String = System.getenv("LEGAL_URL")
 
   val httpProtocol: HttpProtocolBuilder = http
     .baseURL(baseURL)
@@ -27,20 +28,13 @@ class CreateClaimSimulation extends Simulation with SimulationHooks {
     "Origin" -> baseURL
   )
 
-  val createClaimScenario: ScenarioBuilder = scenario("Create Claim")
-      .exec(
-        LoginPage.logIn(testUsers.head),
-        Eligibility.run,
-        ResolvingThisDispute.run,
-        CompletingYourClaim.run,
-        YourDetails.run,
-        TheirDetails.run,
-        Amount.run,
-        Reason.run,
-        CheckAndSend.run
-      )
+  val createLegalClaimScenario: ScenarioBuilder = scenario("Create legal Claim")
+    .exec(
+      LoginPage.legalLogIn(testUsers.head),
+      ClaimantLegalRepresentative.run
+    )
 
-  setUp(createClaimScenario
+  setUp(createLegalClaimScenario
     .inject(rampUsers(10).over(10 seconds))
     .protocols(httpProtocol))
     .maxDuration(10 minutes)

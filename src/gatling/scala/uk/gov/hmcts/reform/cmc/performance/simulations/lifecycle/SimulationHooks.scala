@@ -24,7 +24,7 @@ trait SimulationHooks {
   def bootstrap(): Future[Any] = {
     val testUserInitialisations: List[Future[Unit]] = testUsers map { user =>
       for {
-        _ <- userClient.create(user, "cmc-private-beta")
+        _ <- userClient.create(user)
       } yield {}
     }
 

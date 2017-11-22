@@ -15,6 +15,7 @@ Environment variables to be defined:
 
 ```bash
 $ export URL="The citizen frontend application URL"
+$ export LEGAL_URL="The legal frontend application URL"
 $ export IDAM_API_URL="The IDAM api service URL"
 ```
 
