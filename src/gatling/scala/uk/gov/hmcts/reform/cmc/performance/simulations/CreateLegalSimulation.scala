@@ -37,7 +37,7 @@ class CreateLegalSimulation extends Simulation with SimulationHooks {
     )
 
   setUp(createLegalClaimScenario
-    .inject(rampUsers(1).over(1 seconds))
+    .inject(rampUsers(10).over(10 seconds))
     .protocols(httpProtocol))
     .maxDuration(10 minutes)
     .assertions(
