@@ -8,7 +8,7 @@ import io.gatling.http.protocol.HttpProtocolBuilder
 import scala.concurrent.duration._
 import uk.gov.hmcts.reform.cmc.performance.legalprocesses._
 import uk.gov.hmcts.reform.cmc.performance.simulations.lifecycle.SimulationHooks
-import uk.gov.hmcts.reform.idam.{User,LoginPage}
+import uk.gov.hmcts.reform.idam.{LoginPage, User}
 
 import scala.concurrent.duration.FiniteDuration
 
@@ -31,11 +31,13 @@ class CreateLegalSimulation extends Simulation with SimulationHooks {
   val createLegalClaimScenario: ScenarioBuilder = scenario("Create legal Claim")
     .exec(
       LoginPage.legalLogIn(testUsers.head),
-      ClaimantLegalRepresentative.run
+      ClaimantLegalRepresentative.run,
+      ClaimantDetails.run,
+      DefendantDetails.run
     )
 
   setUp(createLegalClaimScenario
-    .inject(rampUsers(10).over(10 seconds))
+    .inject(rampUsers(1).over(1 seconds))
     .protocols(httpProtocol))
     .maxDuration(10 minutes)
     .assertions(

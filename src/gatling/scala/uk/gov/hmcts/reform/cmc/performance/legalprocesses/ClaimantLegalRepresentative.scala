@@ -44,14 +44,14 @@ object ClaimantLegalRepresentative {
         .check(CurrentPageCheck.save)
         .check(CsrfCheck.save)
       )
-      .exec(http("Legal Rep Organisation Contact POST")
+      .exec(http("Legal Rep Organisation Ref POST")
         .post(currentPageTemplate)
         .formParam(csrfParameter, csrfTemplate)
         .formParam("reference", "REFLR001")
         .check(CurrentPageCheck.save)
         .check(CsrfCheck.save)
       )
-      .exec(http("Legal Rep Organisation Contact POST")
+      .exec(http("Legal Rep Organisation Court POST")
         .post(currentPageTemplate)
         .formParam(csrfParameter, csrfTemplate)
         .formParam("name", "Central Court")
@@ -59,6 +59,8 @@ object ClaimantLegalRepresentative {
         .check(CsrfCheck.save)
         .check(regex("Choose claimant type"))
       )
+
+
   }
 
 }
