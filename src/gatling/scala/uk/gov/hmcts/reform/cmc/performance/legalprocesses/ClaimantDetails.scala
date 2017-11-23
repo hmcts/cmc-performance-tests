@@ -29,6 +29,7 @@ object ClaimantDetails {
         .check(CurrentPageCheck.save)
         .check(CsrfCheck.save)
      )
+     .pause(2)
      .exec(http("Add More Claimants POST")
         .post(currentPageTemplate)
         .formParam(csrfParameter, csrfTemplate)

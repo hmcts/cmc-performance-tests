@@ -29,6 +29,7 @@ object DefendantDetails {
         .check(CurrentPageCheck.save)
         .check(CsrfCheck.save)
       )
+      .pause(2)
       .exec(http("Defendant Represntive POST")
         .post(currentPageTemplate)
         .formParam(csrfParameter, csrfTemplate)

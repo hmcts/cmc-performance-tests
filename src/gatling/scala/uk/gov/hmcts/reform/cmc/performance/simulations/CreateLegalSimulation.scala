@@ -33,7 +33,8 @@ class CreateLegalSimulation extends Simulation with SimulationHooks {
       LoginPage.legalLogIn(testUsers.head),
       ClaimantLegalRepresentative.run,
       ClaimantDetails.run,
-      DefendantDetails.run
+      DefendantDetails.run,
+      AmountClaimDetails.run
     )
 
   setUp(createLegalClaimScenario
