@@ -13,7 +13,7 @@ properties(
 
 String channel = '#cmc-tech-notification'
 
-node('docker') {
+node('slave') {
   try {
     stage('Checkout') {
       deleteDir()
