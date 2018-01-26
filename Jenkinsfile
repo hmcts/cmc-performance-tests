@@ -29,7 +29,7 @@ node('slave') {
       }
 
       stage('Run performance (Legal)') {
-        env.IDAM_API_URL = 'http://betaDevBccidamAppLB.reform.hmcts.net:4551'
+        env.IDAM_API_URL = 'http://betaDevBccidamAppLB.reform.hmcts.net'
         env.LEGAL_URL = 'https://www-dev.moneyclaim.reform.hmcts.net/legal'
         sh "./gradlew gatlingRun-uk.gov.hmcts.reform.cmc.performance.simulations.CreateLegalSimulation"
       }
