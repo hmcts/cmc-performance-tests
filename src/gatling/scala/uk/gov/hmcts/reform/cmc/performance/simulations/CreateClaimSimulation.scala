@@ -4,12 +4,11 @@ import io.gatling.core.Predef._
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef._
 import io.gatling.http.protocol.HttpProtocolBuilder
+
 import scala.concurrent.duration._
 import uk.gov.hmcts.reform.cmc.performance.processes._
 import uk.gov.hmcts.reform.cmc.performance.simulations.lifecycle.SimulationHooks
-import uk.gov.hmcts.reform.idam.{User,LoginPage}
-
-import scala.concurrent.duration.FiniteDuration
+import uk.gov.hmcts.reform.idam.{LoginPage, User}
 
 class CreateClaimSimulation extends Simulation with SimulationHooks {
   testUsers = List(User.citizen)
@@ -37,6 +36,7 @@ class CreateClaimSimulation extends Simulation with SimulationHooks {
         TheirDetails.run,
         Amount.run,
         Reason.run,
+        Timeline.run,
         CheckAndSend.run
       )
 
