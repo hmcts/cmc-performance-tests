@@ -37,6 +37,7 @@ class CreateClaimSimulation extends Simulation with SimulationHooks {
         Amount.run,
         Reason.run,
         Timeline.run,
+        Evidence.run,
         CheckAndSend.run
       )
 
