@@ -37,7 +37,7 @@ node('slave') {
       gatlingArchive()
     }
   } catch (e) {
-    notifyBuildFailure channel: channel
+    //notifyBuildFailure channel: channel
     throw e
   }
   notifyBuildFixed channel: channel
